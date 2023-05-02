@@ -9,8 +9,12 @@ router.get('/:id', (req, res) => {
     res.json({sampleId: req.params.id});
 });
 
+router.post('/', (req, res) => {
+    res.json({sampleId: 123});
+});
+
 router.put('/', (req, res) => {
-    res.json({result: 'success'});
+    res.json({sampleId: req.params.id});
 });
 
 module.exports = router;
