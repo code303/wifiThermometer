@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const database = require('../database/database');
 
 router.get('/', (req, res) => {
     res.json({samples: []});
 });
 
 router.get('/:id', (req, res) => {
-    res.json({sampleId: req.params.id});
+    const sample = database.getSample(req.params.id);
+    res.json(sample);
 });
 
 router.post('/', (req, res) => {
