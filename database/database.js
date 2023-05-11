@@ -13,5 +13,10 @@ const getSample = (id) => {
         value: 12.3};
 };
 
+const writeSample = (sample) => {
+    const id = generateUUID();
+    sample.id = id;
+    return sample;
+};
 
 module.exports = { getSamples, getSample };
