@@ -1,22 +1,43 @@
-const express = require('express');
-const router = express.Router();
-const database = require('../database/database');
+const fs = require('fs');
+const FILE = './data/db.csv';
 
-router.get('/', (req, res) => {
-    res.json({samples: []});
-});
+const database = {
+    
+};
 
-router.get('/:id', (req, res) => {
-    const sample = database.getSample(req.params.id);
-    res.json(sample);
-});
+const readSamples = () => {
+    return [];
+};
 
-router.post('/', (req, res) => {
-    res.json({sampleId: 123});
-});
+const readSample = (id) => {
+    return {
+        id: id,
+        timestamp:  new Date().toISOString(),
+        temperature: 12.3,
+        humidity: 59.6
+    };
+};
 
-router.put('/', (req, res) => {
-    res.json({sampleId: req.params.id});
-});
+const writeSample = (sample) => {
+    console.log(JSON.stringify(sample));
+    const entry =
+      sample.timestamp.toISOString() + ';' +
+      sample.temperature + ';' +
+      sample.humidity;
 
-module.exports = router;
+    writeToFile(entry);
+};
+
+
+
+const writeToFile = (content) => {
+    fs.appendFile(FILE, content, err => {
+        if (err) {
+            console.error(err);
+        }
+        console.log('file written successfully');
+    });
+};
+
+
+module.exports = { readSamples, readSample, writeSample };
