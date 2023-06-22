@@ -1,5 +1,5 @@
 const fs = require('fs');
-const FILE = './data/db.csv';
+const FILE = __dirname + '/data/db.csv';
 
 const database = {
     
@@ -21,7 +21,7 @@ const readSample = (id) => {
 const writeSample = (sample) => {
     console.log(JSON.stringify(sample));
     const entry =
-      sample.timestamp.toISOString() + ';' +
+      sample.timestamp + ';' +
       sample.temperature + ';' +
       sample.humidity;
 
@@ -31,7 +31,7 @@ const writeSample = (sample) => {
 
 
 const writeToFile = (content) => {
-    fs.appendFile(FILE, content, err => {
+    fs.appendFile(FILE, '\r\n' + content, err => {
         if (err) {
             console.error(err);
         }
