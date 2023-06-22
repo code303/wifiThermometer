@@ -1,22 +1,39 @@
-const database = {
-    
-};
+const fs = require('fs');
+const FILE = __dirname + '/data/db.csv';
 
-const getSamples = () => {
+const readSamples = () => {
     return [];
 };
 
-const getSample = (id) => {
+const readSample = (id) => {
     return {
         id: id,
         timestamp:  new Date().toISOString(),
-        value: 12.3};
+        temperature: 12.3,
+        humidity: 59.6
+    };
 };
 
 const writeSample = (sample) => {
-    const id = generateUUID();
-    sample.id = id;
-    return sample;
+    console.log(JSON.stringify(sample));
+    const entry =
+      sample.id + ';' +
+      sample.timestamp + ';' +
+      sample.temperature + ';' +
+      sample.humidity;
+
+    writeToFile(entry);
 };
 
-module.exports = { getSamples, getSample };
+
+
+const writeToFile = (content) => {
+    fs.appendFile(FILE, '\r\n' + content, err => {
+        if (err) {
+            console.error(err);
+        }
+        console.log('file written successfully');
+    });
+};
+
+module.exports = { readSamples, readSample, writeSample };

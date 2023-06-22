@@ -3,16 +3,30 @@ const router = express.Router();
 const database = require('../database/database');
 
 router.get('/', (req, res) => {
-    res.json({samples: []});
+    console.log('GET');
+    res.json(database.readSamples());
 });
 
 router.get('/:id', (req, res) => {
-    const sample = database.getSample(req.params.id);
+    const sample = database.readSample(req.params.id);
     res.json(sample);
 });
 
 router.post('/', (req, res) => {
-    res.json({sampleId: 123});
+    console.log('POST');
+    const linuxTimestamp = Date.now();
+    const isoDateString = new Date(linuxTimestamp).toISOString();
+    const sample = {
+        id: linuxTimestamp,
+        timestamp: isoDateString,
+        temperature: req.body.temperature,
+        humidity: req.body.humidity
+    };
+        
+    database.writeSample(sample);
+    res.statusCode = 201;
+    res.set('Content-Type', 'application/json');
+    res.json(sample);
 });
 
 router.put('/', (req, res) => {
