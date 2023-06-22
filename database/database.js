@@ -1,10 +1,6 @@
 const fs = require('fs');
 const FILE = __dirname + '/data/db.csv';
 
-const database = {
-    
-};
-
 const readSamples = () => {
     return [];
 };
@@ -21,6 +17,7 @@ const readSample = (id) => {
 const writeSample = (sample) => {
     console.log(JSON.stringify(sample));
     const entry =
+      sample.id + ';' +
       sample.timestamp + ';' +
       sample.temperature + ';' +
       sample.humidity;

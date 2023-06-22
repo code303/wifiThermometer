@@ -2,7 +2,7 @@ const express = require('express');
 bodyParser = require('body-parser');
 const sampleRouter = require('./routes/samples.js');
 const app = express();
-const port = 3000;
+const port = 3003;
 
 app.use(express.static('public'));
 app.use(bodyParser.json()); // support json encoded bodies

@@ -1,2 +1,2 @@
 
-timestamp;temperature;humidity
+id;timestamp;temperature;humidity

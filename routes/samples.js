@@ -12,7 +12,7 @@ router.get('/:id', (req, res) => {
     res.json(sample);
 });
 
-router.post('/body', (req, res) => {
+router.post('/', (req, res) => {
     console.log('POST');
     const linuxTimestamp = Date.now();
     const isoDateString = new Date(linuxTimestamp).toISOString();
@@ -25,39 +25,7 @@ router.post('/body', (req, res) => {
         
     database.writeSample(sample);
     res.statusCode = 201;
-    res.json(sample);
-});
-
-router.post('/bodyjson', (req, res) => {
-    console.log('POST');
-    const linuxTimestamp = Date.now();
-    const isoDateString = new Date(linuxTimestamp).toISOString();
-    const sample = {
-        id: linuxTimestamp,
-        timestamp: isoDateString,
-        temperature: req.body.temperature,
-        humidity: req.body.humidity
-    };
-        
-    database.writeSample(sample);
-    res.statusCode = 201;
-    res.json(sample);
-});
-
-
-router.post('/query', (req, res) => {
-    console.log('POST');
-    const linuxTimestamp = Date.now();
-    const isoDateString = new Date(linuxTimestamp).toISOString();
-    const sample = {
-        id: linuxTimestamp,
-        timestamp: isoDateString,
-        temperature: req.query.temperature,
-        humidity: req.query.humidity
-    };
-        
-    database.writeSample(sample);
-    res.statusCode = 201;
+    res.set('Content-Type', 'application/json');
     res.json(sample);
 });
 
