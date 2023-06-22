@@ -1,43 +1,51 @@
-const fs = require('fs');
-const FILE = './data/db.csv';
+const express = require('express');
+const router = express.Router();
+const database = require('../database/database');
 
-const database = {
-    
-};
+router.get('/', (req, res) => {
+    console.log('GET');
+    res.json(database.readSamples());
+});
 
-const readSamples = () => {
-    return [];
-};
+router.get('/:id', (req, res) => {
+    const sample = database.readSample(req.params.id);
+    res.json(sample);
+});
 
-const readSample = (id) => {
-    return {
-        id: id,
-        timestamp:  new Date().toISOString(),
-        temperature: 12.3,
-        humidity: 59.6
+router.post('/body', (req, res) => {
+    console.log('POST');
+    const linuxTimestamp = Date.now();
+    const isoDateString = new Date(linuxTimestamp).toISOString();
+    const sample = {
+        id: linuxTimestamp,
+        timestamp: isoDateString,
+        temperature: req.query.temperature,
+        humidity: req.query.humidity
     };
-};
+        
+    database.writeSample(sample);
+    res.statusCode = 201;
+    res.json(sample);
+});
 
-const writeSample = (sample) => {
-    console.log(JSON.stringify(sample));
-    const entry =
-      sample.timestamp.toISOString() + ';' +
-      sample.temperature + ';' +
-      sample.humidity;
+router.post('/query', (req, res) => {
+    console.log('POST');
+    const linuxTimestamp = Date.now();
+    const isoDateString = new Date(linuxTimestamp).toISOString();
+    const sample = {
+        id: linuxTimestamp,
+        timestamp: isoDateString,
+        temperature: req.query.temperature,
+        humidity: req.query.humidity
+    };
+        
+    database.writeSample(sample);
+    res.statusCode = 201;
+    res.json(sample);
+});
 
-    writeToFile(entry);
-};
+router.put('/', (req, res) => {
+    res.json({sampleId: req.params.id});
+});
 
-
-
-const writeToFile = (content) => {
-    fs.appendFile(FILE, content, err => {
-        if (err) {
-            console.error(err);
-        }
-        console.log('file written successfully');
-    });
-};
-
-
-module.exports = { readSamples, readSample, writeSample };
+module.exports = router;
