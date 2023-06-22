@@ -36,5 +36,4 @@ const writeToFile = (content) => {
     });
 };
 
-
 module.exports = { readSamples, readSample, writeSample };
