@@ -1,5 +1,5 @@
 const fs = require('fs');
-const FILE = __dirname + '/data/db.csv';
+const CSV_PATH = __dirname + '/data/';
 
 const readSamples = () => {
     return [];
@@ -28,12 +28,33 @@ const writeSample = (sample) => {
 
 
 const writeToFile = (content) => {
-    fs.appendFile(FILE, '\r\n' + content, err => {
+    const csvFile = generateCsvFilename(CSV_PATH, Date.now());
+    if (!fs.existsSync(csvFile)) {
+        writeCSVHeader(csvFile, ['id', 'timestamp', 'temperature', 'humidity']);
+    }
+    appendToFile(csvFile, content);
+};
+
+const writeCSVHeader = (filename, header) => {
+  const headerRow = header.join(';');
+  fs.writeFile(filename, headerRow, (err) => {
+    if (err) {
+      console.error('An error occurred while writing the file:', err);
+    }
+  });
+}
+
+const appendToFile = (file, content) => {
+    fs.appendFile(file, '\r\n' + content, err => {
         if (err) {
             console.error(err);
         }
-        console.log('file written successfully');
     });
 };
+
+const generateCsvFilename = (path, date) => {
+  const isoDate = new Date(date).toISOString().split('T')[0];
+  return path + `data_${isoDate}.csv`;
+}
 
 module.exports = { readSamples, readSample, writeSample };
