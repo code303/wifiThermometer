@@ -9,8 +9,8 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(express.urlencoded({ extended: true })); // support encoded bodies
 
 app.set('view engine', 'ejs' );
-app.get('/', (req, res) => {
-    res.render('index', {text: 'world'});
+app.get('/monitor', (req, res) => {
+    res.render('monitor', {text: '17.9'});
 });
 
 app.use('/samples', sampleRouter);
