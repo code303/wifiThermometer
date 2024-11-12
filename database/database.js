@@ -1,9 +1,47 @@
 const fs = require('fs');
 const CSV_PATH = __dirname + '/data/';
 
-const readSamples = () => {
-    return [];
+const readSamplesOfLatestDay = () => {
+    const files = readAllCsvFiles(CSV_PATH);
+    files.sort();
+    const latestFile = files[files.length - 1];
+    return files.length > 0 ? readFromFile(latestFile) : [];
 };
+
+const readAllSamples = () => {
+    const files = readAllCsvFiles(CSV_PATH);
+    const samples = [];
+    files.forEach(file => {
+        samples.push(...readFromFile(file));
+    });
+    return samples;
+};
+
+const readAllCsvFiles = (path) => {
+    return fs.readdirSync(path)
+        .filter(filename => filename.startsWith('data_'))
+        .filter(file => file.endsWith('.csv'));
+}
+
+const readFromFile = (file) => {
+    const content = fs.readFileSync(CSV_PATH + file, 'utf8');
+    const lines = content.split('\n');
+    const samples = [];
+    for (let i = 1; i < lines.length; i++) {
+        const line = lines[i];
+        if (line.length > 0) {
+            const values = line.split(';');
+            const sample = {
+                id: values[0],
+                timestamp: values[1],
+                temperature: parseFloat(values[2]),
+                humidity: parseFloat(values[3])
+            };
+            samples.push(sample);
+        }
+    }
+    return samples;
+}
 
 const readSample = (id) => {
     return {
@@ -57,4 +95,4 @@ const generateCsvFilename = (path, date) => {
   return path + `data_${isoDate}.csv`;
 }
 
-module.exports = { readSamples, readSample, writeSample };
+module.exports = { readSamplesOfLatestDay, readAllSamples, readSample, writeSample };

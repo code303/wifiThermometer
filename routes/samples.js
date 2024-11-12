@@ -3,8 +3,16 @@ const router = express.Router();
 const database = require('../database/database');
 
 router.get('/', (req, res) => {
-    console.log('GET');
-    res.json(database.readSamples());
+    console.log('GET /samples');
+    res.json(database.readAllSamples());
+});
+
+router.get('/latest', (req, res) => {
+    console.log('-> GET /samples/latest');
+    const samples = database.readSamplesOfLatestDay();
+    const latestSample = samples[samples.length - 1];
+    console.log('<- ' + latestSample.temperature + ' ' + latestSample.timestamp);
+    res.send(latestSample.temperature.toString());
 });
 
 router.get('/:id', (req, res) => {

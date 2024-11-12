@@ -14,8 +14,11 @@
         <h1>wifiThermometer</h1>
     </header>
     <main>
-        <section>
-            It is <%= locals.text || '???' %> degrees Celsius. 
+        <section id="temperature">
+            <%= locals.temperature || '???' %> &deg;
+        </section>
+        <section id="timestamp">
+            <%= new Date(locals.timestamp).toLocaleString() || '???' %>
         </section>
 </body>
 </html>
