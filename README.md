@@ -11,3 +11,6 @@ Start the application
 
 Keep the application running after server restarts, save it
 `forever save`
+
+Results:
+ - Kühlschrankregelung alle 13 Minuten 5,3 - 4,7 Grad
